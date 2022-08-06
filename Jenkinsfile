@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKERHUB_USERNAME = "kunchalavikram"
+        DOCKERHUB_USERNAME = "bipin115"
         APP_NAME = "gitops-demo-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
@@ -18,8 +18,8 @@ pipeline {
         stage('Checkout SCM'){
             steps {
                 git credentialsId: 'github', 
-                url: 'https://github.com/kunchalavikram1427/gitops-demo.git',
-                branch: 'dev'
+                url: 'https://github.com/bipin115/gitops-argocd-kubernates-deployment.git',
+                branch: 'master'
             }
         }
         stage('Build Docker Image'){
@@ -56,12 +56,12 @@ pipeline {
             steps {
                 script{
                     sh """
-                    git config --global user.name "vikram"
-                    git config --global user.email "vikram@gmail.com"
+                    git config --global user.name "bipin115"
+                    git config --global user.email "bipin.singh4115@gmail.com"
                     git add deployment.yml
                     git commit -m 'Updated the deployment file' """
                     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                        sh "git push http://$user:$pass@github.com/kunchalavikram1427/gitops-demo.git dev"
+                        sh "git push http://$user:$pass@github.com/bipin115/gitops-argocd-kubernates-deployment.git master"
                     }
                 }
             }
