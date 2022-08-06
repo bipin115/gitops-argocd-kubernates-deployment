@@ -47,21 +47,21 @@ pipeline {
         }
         stage('Updating Kubernetes deployment file'){
             steps {
-                bat "cat deployment.yml"
-                bat "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml"
-                bat "cat deployment.yml"
+                sh "cat deployment.yml"
+                sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml"
+                sh "cat deployment.yml"
             }
         }
         stage('Push the changed deployment file to Git'){
             steps {
                 script{
-                    bat """
+                    sh """
                     git config --global user.name "bipin115"
                     git config --global user.email "bipin.singh4115@gmail.com"
                     git add deployment.yml
                     git commit -m 'Updated the deployment file' """
                     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                        bat "git push http://$user:$pass@github.com/bipin115/gitops-argocd-kubernates-deployment.git master"
+                        sh "git push http://$user:$pass@github.com/bipin115/gitops-argocd-kubernates-deployment.git master"
                     }
                 }
             }
