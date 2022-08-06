@@ -2,7 +2,7 @@ import socket
 from uuid import getnode as get_mac
 from flask import Flask,jsonify
 
-# Get device details
+# Get device details using sockets
 def get_device_details():
 	hostname = socket.gethostname()
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
